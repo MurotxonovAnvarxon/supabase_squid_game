@@ -16,3 +16,7 @@ class DeleteEmployeeEvent extends HomeEvent{
 class UpdateEmployeeEvent extends HomeEvent{
 
 }
+
+class GetAllEmployeeEvent extends HomeEvent{
+
+}

@@ -16,12 +16,23 @@ class _HomeScreenState extends State<HomeScreen> {
   final bloc = HomeBloc();
 
   @override
+  void initState() {
+    super.initState();
+    bloc.add(GetAllEmployeeEvent());
+  }
+
+  @override
+  void dispose() {
+    bloc.close();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
       value: bloc,
       child: BlocConsumer<HomeBloc, HomeState>(
         listener: (context, state) {
-          // TODO: implement listener
         },
         builder: (context, state) {
           return Scaffold(
@@ -42,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   if (v != null) {
                     String name = v;
                     bloc.add(CreateEmployeeEvent(
-                        data: EmployeeModel(null, employeeName: name)));
+                        data: EmployeeModel( employeeName: name, )));
                   }
                 });
               },
@@ -52,11 +63,11 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             body: ListView.builder(
-                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 20),
-                itemCount: 10,
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
+                itemCount: state.data?.length ?? 0,
                 itemBuilder: (context, index) {
                   return HomeListItem(
-                    name: "name",
+                    name: state.data?[index].employeeName ?? "",
                     onDelete: () {},
                   );
                 }),

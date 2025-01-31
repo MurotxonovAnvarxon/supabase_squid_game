@@ -1,20 +1,28 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:supabase_squid_game/data/employee_model.dart';
+import 'package:supabase_squid_game/main.dart';
 
 class EmployeeDataBase {
   final database = Supabase.instance.client.from("employee");
 
   //create employee
   Future createEmployee(EmployeeModel data) async {
-    await database.insert(data.toMap());
+    try {
+      await database.insert(data.toMap());
+    } catch (e) {
+      rethrow;
+    }
   }
 
   //getEmployees
-  final stream = Supabase.instance.client
-      .from("employee")
-      .stream(primaryKey: ["id"]).map((data) => data
-          .map((employeeMap) => EmployeeModel.fromMap(employeeMap))
-          .toList());
+  Future<List<EmployeeModel>> getEmployees() async {
+    try {
+      final response = await supabase.from("employee").select('*');
+      return response.map((v) => EmployeeModel.fromMap(v)).toList();
+    } catch (e) {
+      rethrow;
+    }
+  }
 
 //update employee
 // Future updateEmployee(EmployeeModel oldEmployee,String newName)async{
@@ -22,9 +30,7 @@ class EmployeeDataBase {
 // }
 
   //delete employee
-  Future deleteEmployee(EmployeeModel data) async {
-    await database
-        .delete()
-        .eq("id", (data.id != null ? data.id : null) as Object);
+  Future deleteEmployee(int id) async {
+    await database.delete().eq("id", id);
   }
 }
