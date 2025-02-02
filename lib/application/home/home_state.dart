@@ -2,11 +2,18 @@ part of 'home_bloc.dart';
 
 class HomeState {
   final List<EmployeeModel>? data;
+  final Status? status;
+  final String? errorMessage;
 
-  HomeState({this.data});
+  HomeState({this.status, this.data, this.errorMessage});
 
-  HomeState copyWith({
-    final List<EmployeeModel>? data,
-  }) =>
-      HomeState(data: data ?? this.data);
+  HomeState copyWith(
+          {final List<EmployeeModel>? data,
+          final Status? status,
+          final String? errorMessage}) =>
+      HomeState(
+        errorMessage: errorMessage ?? this.errorMessage,
+        data: data ?? this.data,
+        status: status ?? this.status,
+      );
 }

@@ -14,7 +14,9 @@ class DeleteEmployeeEvent extends HomeEvent{
 }
 
 class UpdateEmployeeEvent extends HomeEvent{
+final EmployeeModel data;
 
+  UpdateEmployeeEvent({required this.data});
 }
 
 class GetAllEmployeeEvent extends HomeEvent{

@@ -24,10 +24,21 @@ class EmployeeDataBase {
     }
   }
 
-//update employee
-// Future updateEmployee(EmployeeModel oldEmployee,String newName)async{
-// await database.update({"employee":})
-// }
+  //update employee
+  Future<EmployeeModel?> updateEmployee(EmployeeModel data) async {
+    try {
+      final response = await supabase
+          .from('employee')
+          .update(data.toMap())
+          .eq('id', data.id ?? -1)
+          .select()
+          .single();
+
+      return EmployeeModel.fromMap(response);
+    } catch (e) {
+      rethrow;
+    }
+  }
 
   //delete employee
   Future deleteEmployee(int id) async {
