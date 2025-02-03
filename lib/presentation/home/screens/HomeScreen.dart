@@ -1,12 +1,9 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_squid_game/application/home/home_bloc.dart';
-import 'package:supabase_squid_game/data/employee_model.dart';
 import 'package:supabase_squid_game/presentation/home/components/add_employee_bottomsheet.dart';
 import 'package:supabase_squid_game/presentation/home/components/edit_employee_bottomsheet.dart';
 import 'package:supabase_squid_game/presentation/home/components/home_list_item.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_squid_game/utils/base.dart';
 import 'package:supabase_squid_game/utils/enums.dart';
 
@@ -69,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             body: RefreshIndicator(
-              onRefresh: ()async {
+              onRefresh: () async {
                 bloc.add(GetAllEmployeeEvent());
               },
               child: Builder(builder: (context) {
@@ -96,7 +93,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                             .viewInsets
                                             .bottom),
                                     child: EditEmployeeBottomsheet(
-                                      name: state.data?[index].employeeName ?? "",
+                                      name:
+                                          state.data?[index].employeeName ?? "",
                                       id: state.data?[index].id ?? -1,
                                     ),
                                   );
@@ -134,7 +132,18 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   );
                 }
-                return const SizedBox();
+                return RefreshIndicator(
+                  onRefresh: () async {
+                    bloc.add(GetAllEmployeeEvent());
+                  },
+                  child: const Center(
+                    child: Text(
+                      "Xatolik",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                );
+                ;
               }),
             ),
           );
